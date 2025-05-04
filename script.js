@@ -1,6 +1,6 @@
 // Move copyCA function outside of DOMContentLoaded
 function copyCA() {
-    const ca = "247B4aJxEDvTiAC9BSPTXE1LVnVb8aMzkRoN4K1epump";
+    const ca = "CA WILL UPDATE SOON";
     navigator.clipboard.writeText(ca).then(() => {
         const button = document.querySelector('.ca-button');
         button.classList.add('copied');
