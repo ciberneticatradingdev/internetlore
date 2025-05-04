@@ -1,0 +1,844 @@
+/* Reset básico para asegurar consistencia en todos los navegadores */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    overflow-y: auto;
+    font-family: 'FFFont', 'Montserrat', sans-serif;
+    color: #fff;
+    background: #000;
+    width: 100%;
+    overflow-x: hidden; /* Prevenir scroll horizontal */
+}
+
+/* Add the custom font definition at the top of the CSS */
+@font-face {
+    font-family: 'FFFont';
+    src: url('ffont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('bg.gif') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.section_welcome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.title {
+    font-size: 4.5rem;
+    color: #fff;
+    margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: 'FFFont', sans-serif;
+    position: relative;
+    perspective: 1000px;
+}
+
+.title .highlight {
+    display: inline-block;
+    animation: psychedelicPulse 4s infinite ease-in-out, floatText 6s infinite ease-in-out;
+    font-size: 1.2em;
+    position: relative;
+    transform-style: preserve-3d;
+    background: linear-gradient(45deg, 
+        rgba(255,0,255,0.2),
+        rgba(0,255,255,0.2),
+        rgba(255,0,170,0.2),
+        rgba(170,0,255,0.2)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+}
+
+.title .highlight:hover {
+    animation: none;
+    transform: scale(1.3) rotate(5deg);
+    color: #ff00ff;
+    text-shadow: 
+        0 0 20px rgba(255, 0, 255, 0.9),
+        0 0 40px rgba(255, 0, 255, 0.7),
+        0 0 60px rgba(255, 0, 255, 0.5),
+        0 0 80px rgba(255, 0, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.continue {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    background-color: #ffff00;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    font-family: 'FFFont', sans-serif;
+}
+
+.continue:hover {
+    transform: scale(1.05);
+    background-color: #fff;
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.5);
+}
+
+/* Hide popup initially */
+.popup {
+    display: none;
+}
+
+/* Center GIF styles */
+.center-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+    display: none;
+}
+
+.center-gif img {
+    width: 50vw;
+    max-width: 300px;
+}
+
+.center-gif h1 {
+    font-size: 3vw;
+    color: yellow;
+    text-shadow: 2px 2px 0 black;
+    transition: transform 0.3s;
+}
+
+/* Add Google Font to head of HTML */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+.images-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 4;
+    pointer-events: all;
+    mix-blend-mode: normal;
+}
+
+/* Base random image styles */
+.random-image {
+    position: fixed;
+    transition: all 0.5s ease;
+    z-index: 4;
+    pointer-events: all;
+    mix-blend-mode: normal;
+}
+
+/* Remove the general hover effect since we'll add specific ones */
+.random-image:hover {
+    cursor: pointer;
+}
+
+/* Different animation keyframes for weird effects */
+@keyframes spinAndGrow {
+    0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+    50% { transform: rotate(720deg) scale(2); filter: hue-rotate(180deg); }
+    100% { transform: rotate(1440deg) scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes jellyShake {
+    0%, 100% { transform: scale(1, 1); }
+    25% { transform: scale(0.9, 1.1); }
+    50% { transform: scale(1.1, 0.9); }
+    75% { transform: scale(0.95, 1.05); }
+}
+
+@keyframes glitchEffect {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-10px, 5px); filter: hue-rotate(90deg); }
+    40% { transform: translate(10px, -5px); filter: hue-rotate(180deg); }
+    60% { transform: translate(-5px, -10px); filter: hue-rotate(270deg); }
+    80% { transform: translate(5px, 10px); filter: hue-rotate(360deg); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
+}
+
+@keyframes rainbowPulse {
+    0% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
+    50% { filter: hue-rotate(180deg) brightness(1.5); transform: scale(1.5); }
+    100% { filter: hue-rotate(360deg) brightness(1); transform: scale(1); }
+}
+
+@keyframes crazyFlip {
+    0% { transform: perspective(400px) rotateY(0); }
+    50% { transform: perspective(400px) rotateY(180deg) scale(1.5); }
+    100% { transform: perspective(400px) rotateY(360deg); }
+}
+
+.manifesto {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    overflow-y: scroll;
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+    z-index: 5;
+    pointer-events: auto;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+}
+
+.manifesto-content {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    color: #fff;
+    font-family: 'FFFont', sans-serif;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 1s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    padding: 2rem 1rem 100px 1rem;
+    position: relative;
+    z-index: 6;
+    pointer-events: auto;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+    word-wrap: break-word; /* Asegura que el texto largo se rompa correctamente */
+}
+
+.manifesto.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.manifesto.visible .manifesto-content {
+    transform: translateY(0);
+    opacity: 1;
+    height: auto;
+    pointer-events: auto;
+}
+
+.manifesto h1 {
+    color: #ffff00;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem; /* Reduced margin for subtitle */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.manifesto .subtitle {
+    color: #ffff00;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.manifesto h2 {
+    color: #ffff00;
+    font-size: 1.8rem;
+    margin: 2rem 0;
+}
+
+.manifesto h3 {
+    color: #ffff00;
+    font-size: 1.4rem;
+    margin: 1.5rem 0;
+}
+
+.manifesto p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.manifesto .hashtag {
+    font-size: 1.5rem;
+    color: #ffff00;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.manifesto em {
+    color: #ffff00;
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* Add scrollbar styling for better visibility */
+.manifesto::-webkit-scrollbar {
+    width: 10px;
+}
+
+.manifesto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.manifesto::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 0, 0.5);
+    border-radius: 5px;
+}
+
+.manifesto::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 0, 0.7);
+}
+
+/* Add smooth scrolling to body */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Add styles for horizontal rule */
+.manifesto hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 0, 0.3);
+    margin: 2rem 0;
+}
+
+/* Add styles for list items */
+.manifesto ul {
+    list-style-type: none;
+    padding-left: 1rem;
+    margin: 1rem 0;
+}
+
+.manifesto ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.manifesto ul li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #ffff00;
+}
+
+/* Add media query for mobile devices */
+@media (max-width: 768px) {
+    .continue {
+        padding: 20px 50px;
+        font-size: 1.8rem;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .title .highlight {
+        animation: psychedelicPulse 3s infinite ease-in-out, floatText 4s infinite ease-in-out;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .title .highlight {
+        display: block;
+        margin: 10px 0;
+        transform: rotate(-3deg);
+        animation: psychedelicPulse 2s infinite ease-in-out, floatText 3s infinite ease-in-out;
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .ape-button-container {
+        position: fixed;
+        top: 15px;
+        right: 10px;
+        gap: 5px;
+        display: flex;
+        z-index: 20;
+    }
+    
+    .ca-button-container {
+        position: fixed;
+        top: 15px; /* Keep it at the top */
+        left: 10px;
+        z-index: 20;
+    }
+    
+    .ape-button, .manifest-button {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        background: linear-gradient(45deg, #ffff00, #fff700, #ffff00);
+        box-shadow: 
+            0 0 5px rgba(255, 255, 0, 0.7),
+            0 0 10px rgba(255, 255, 0, 0.4);
+        border-width: 1px;
+    }
+    
+    .manifest-button.active {
+        background: linear-gradient(45deg, #00ffff, #00f7ff, #00ffff);
+        box-shadow: 
+            0 0 5px rgba(0, 255, 255, 0.7),
+            0 0 10px rgba(0, 255, 255, 0.4);
+    }
+    
+    .ca-button {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+        border-width: 1px;
+    }
+    
+    .manifesto {
+        padding: 60px 0 0 0; /* Solo padding superior, sin padding lateral */
+        width: 100vw; /* Usar viewport width */
+        left: 0;
+        right: 0;
+    }
+    
+    .manifesto-content {
+        padding: 0.8rem 0.8rem 60px 0.8rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .manifesto h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.3rem;
+        line-height: 1.2;
+    }
+    
+    .manifesto .subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.2;
+    }
+    
+    .manifesto h2 {
+        font-size: 1.3rem;
+        margin: 1.2rem 0;
+        line-height: 1.2;
+    }
+    
+    .manifesto h3 {
+        font-size: 1.1rem;
+        margin: 0.8rem 0;
+        line-height: 1.2;
+    }
+    
+    .manifesto p, .manifesto ul li {
+        font-size: 0.9rem;
+        line-height: 1.3;
+        margin-bottom: 0.6rem;
+        width: 100%;
+        word-wrap: break-word;
+    }
+    
+    .manifesto ul li {
+        padding-left: 1.2rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .manifesto ul {
+        padding-left: 0.5rem;
+        margin: 0.8rem 0;
+        width: 100%;
+    }
+    
+    .manifesto hr {
+        margin: 1.2rem 0;
+        width: 100%;
+    }
+    
+    .manifesto .hashtag {
+        font-size: 1.2rem;
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+    .ape-button-container {
+        top: 10px;
+        right: 5px;
+    }
+    
+    .ca-button-container {
+        top: 10px;
+        left: 5px;
+    }
+    
+    .ape-button, .manifest-button, .ca-button {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        border-width: 1px;
+    }
+    
+    .manifesto {
+        padding: 50px 0 0 0;
+        width: 100vw;
+    }
+    
+    .manifesto-content {
+        padding: 0.6rem 0.6rem 50px 0.6rem;
+        width: 100%;
+    }
+    
+    .manifesto h1 {
+        font-size: 1.4rem;
+    }
+    
+    .manifesto .subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .manifesto h2 {
+        font-size: 1.2rem;
+    }
+    
+    .manifesto h3 {
+        font-size: 1rem;
+    }
+    
+    .manifesto p, .manifesto ul li {
+        font-size: 0.85rem;
+        line-height: 1.25;
+    }
+    
+    /* Ensure the manifesto is scrollable on very small screens */
+    .manifesto {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+}
+
+/* Add these keyframes for text animation */
+@keyframes colorCycle {
+    0% { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); }
+    25% { color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); }
+    50% { color: #00ff00; text-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+    75% { color: #0000ff; text-shadow: 0 0 15px rgba(0, 0, 255, 0.7); }
+    100% { color: #ffff00; text-shadow: 0 0 15px rgba(255, 255, 0, 0.7); }
+}
+
+@keyframes wobble {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-5deg); }
+    75% { transform: translateX(5px) rotate(5deg); }
+}
+
+/* Add these new keyframes for enhanced psychedelic effects */
+@keyframes psychedelicPulse {
+    0% { 
+        color: #ff00ff;
+        text-shadow: 
+            0 0 10px rgba(255, 0, 255, 0.7),
+            0 0 20px rgba(255, 0, 255, 0.5),
+            0 0 30px rgba(255, 0, 255, 0.3);
+        transform: scale(1) rotate(0deg);
+    }
+    25% { 
+        color: #00ffff;
+        text-shadow: 
+            0 0 15px rgba(0, 255, 255, 0.8),
+            0 0 25px rgba(0, 255, 255, 0.6),
+            0 0 35px rgba(0, 255, 255, 0.4);
+        transform: scale(1.1) rotate(2deg);
+    }
+    50% { 
+        color: #ff00aa;
+        text-shadow: 
+            0 0 20px rgba(255, 0, 170, 0.9),
+            0 0 30px rgba(255, 0, 170, 0.7),
+            0 0 40px rgba(255, 0, 170, 0.5);
+        transform: scale(1.2) rotate(-2deg);
+    }
+    75% { 
+        color: #aa00ff;
+        text-shadow: 
+            0 0 25px rgba(170, 0, 255, 0.8),
+            0 0 35px rgba(170, 0, 255, 0.6),
+            0 0 45px rgba(170, 0, 255, 0.4);
+        transform: scale(1.1) rotate(1deg);
+    }
+    100% { 
+        color: #ff00ff;
+        text-shadow: 
+            0 0 10px rgba(255, 0, 255, 0.7),
+            0 0 20px rgba(255, 0, 255, 0.5),
+            0 0 30px rgba(255, 0, 255, 0.3);
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes floatText {
+    0%, 100% { 
+        transform: translateY(0) translateX(0);
+        filter: hue-rotate(0deg);
+    }
+    25% { 
+        transform: translateY(-5px) translateX(3px);
+        filter: hue-rotate(90deg);
+    }
+    50% { 
+        transform: translateY(5px) translateX(-3px);
+        filter: hue-rotate(180deg);
+    }
+    75% { 
+        transform: translateY(-3px) translateX(-5px);
+        filter: hue-rotate(270deg);
+    }
+}
+
+/* Add these new styles */
+.shatter-letter {
+    display: inline-block;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--delay);
+    position: relative;
+    transform-origin: center;
+    color: #ffff00; /* Yellow */
+}
+
+.title .highlight {
+    display: inline-block;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: yellowPulse 2s infinite ease-in-out;
+}
+
+@keyframes yellowPulse {
+    0% { 
+        color: #ffff00;
+        text-shadow: 
+            0 0 10px rgba(255, 255, 0, 0.7),
+            0 0 20px rgba(255, 255, 0, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        color: #ffffff;
+        text-shadow: 
+            0 0 20px rgba(255, 255, 0, 0.9),
+            0 0 40px rgba(255, 255, 0, 0.7);
+        transform: scale(1.1);
+    }
+    100% { 
+        color: #ffff00;
+        text-shadow: 
+            0 0 10px rgba(255, 255, 0, 0.7),
+            0 0 20px rgba(255, 255, 0, 0.5);
+        transform: scale(1);
+    }
+}
+
+.title .highlight:hover .shatter-letter {
+    text-shadow: 
+        0 0 20px rgba(255, 255, 0, 0.9),
+        0 0 40px rgba(255, 255, 0, 0.7),
+        0 0 60px rgba(255, 255, 0, 0.5);
+}
+
+.shatter-letter:hover {
+    animation: yellowGlitch 0.5s infinite;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes yellowGlitch {
+    0% {
+        transform: translate(0);
+        color: #ffff00;
+    }
+    20% {
+        transform: translate(-2px, 2px);
+        color: #ffffff;
+    }
+    40% {
+        transform: translate(2px, -2px);
+        color: #ffff00;
+    }
+    60% {
+        transform: translate(-2px, -2px);
+        color: #ffffff;
+    }
+    80% {
+        transform: translate(2px, 2px);
+        color: #ffff00;
+    }
+    100% {
+        transform: translate(0);
+        color: #ffffff;
+    }
+}
+
+.mario-animation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: auto;
+    z-index: 7;
+    transition: left 2s ease-in-out;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.5));
+}
+
+@keyframes marioJump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.mario-animation:hover {
+    animation: marioJump 0.5s ease-in-out infinite;
+    cursor: pointer;
+}
+
+/* Add these styles for the APE NOW button */
+.ape-button-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    display: none; /* Initially hidden */
+    display: flex;
+    gap: 10px;
+}
+
+.ca-button-container {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    display: none; /* Initially hidden */
+}
+
+.ape-button, .manifest-button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    background: linear-gradient(45deg, #ffff00, #fff700, #ffff00);
+    border-radius: 25px;
+    border: 2px solid #000;
+    box-shadow: 
+        0 0 10px rgba(255, 255, 0, 0.7),
+        0 0 20px rgba(255, 255, 0, 0.4);
+    text-transform: uppercase;
+    font-family: 'FFFont', sans-serif;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+    cursor: pointer;
+}
+
+.manifest-button {
+    background: linear-gradient(45deg, #ffff00, #fff700, #ffff00);
+    box-shadow: 
+        0 0 10px rgba(255, 255, 0, 0.7),
+        0 0 20px rgba(255, 255, 0, 0.4);
+}
+
+.manifest-button.active {
+    background: linear-gradient(45deg, #00ffff, #00f7ff, #00ffff);
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.7),
+        0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.ca-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffff00;
+    border: 1px solid #ffff00;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'FFFont', sans-serif;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.ca-button:hover {
+    background: rgba(255, 255, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Add tooltip for copy feedback */
+.ca-button.copied::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    background: rgba(255, 255, 0, 0.9);
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .ape-button {
+        padding: 15px 30px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ape-button {
+        padding: 12px 25px;
+        font-size: 1.2rem;
+    }
+}
