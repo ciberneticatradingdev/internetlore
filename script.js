@@ -290,22 +290,28 @@ document.addEventListener('DOMContentLoaded', function() {
         canPlaySound = true;
     }, { once: true });
 
-    images.forEach((image, index) => {
+    // Variables para el contador de clics en la imagen específica
+    let questImageClicks = 0;
+    const questImageUrl = "5f6da5_09df12feed3642bea92ab858f81685ca~mv2.gif";
+    const questRedirectUrl = "https://x.com";
+    const questClicksRequired = 3;
+
+    images.forEach((img, index) => {
         // Random position
-        image.style.top = Math.random() * window.innerHeight + 'px';
-        image.style.left = Math.random() * window.innerWidth + 'px';
+        img.style.top = Math.random() * window.innerHeight + 'px';
+        img.style.left = Math.random() * window.innerWidth + 'px';
 
         // Random size
         const sizeRange = sizeVariations[Math.floor(Math.random() * sizeVariations.length)];
         const randomSize = Math.floor(Math.random() * (sizeRange.max - sizeRange.min) + sizeRange.min);
-        image.style.width = `${randomSize}px`;
-        image.style.height = 'auto'; // Maintain aspect ratio
+        img.style.width = `${randomSize}px`;
+        img.style.height = 'auto'; // Maintain aspect ratio
 
         // Assign random weird effect
         const randomEffect = Math.floor(Math.random() * weirdEffects.length);
         
         // Create unique hover effect for each image
-        image.addEventListener('mouseover', () => {
+        img.addEventListener('mouseover', () => {
             if (canPlaySound) {
                 const now = Date.now();
                 if (now - lastPlayedTime > MIN_TIME_BETWEEN_SOUNDS) {
@@ -317,29 +323,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Apply random weird effect
-            Object.assign(image.style, weirdEffects[randomEffect]);
+            Object.assign(img.style, weirdEffects[randomEffect]);
             
             if (Math.random() > 0.5) {
-                image.style.mixBlendMode = ['multiply', 'screen', 'overlay', 'color-dodge'][Math.floor(Math.random() * 4)];
+                img.style.mixBlendMode = ['multiply', 'screen', 'overlay', 'color-dodge'][Math.floor(Math.random() * 4)];
             }
         });
 
         // Update mouseout handler to only reset styles
-        image.addEventListener('mouseout', () => {
+        img.addEventListener('mouseout', () => {
             // Reset styles but keep the random size
-            image.style.transform = '';
-            image.style.filter = '';
-            image.style.animation = '';
-            image.style.mixBlendMode = 'normal';
-            image.style.width = `${randomSize}px`;
+            img.style.transform = '';
+            img.style.filter = '';
+            img.style.animation = '';
+            img.style.mixBlendMode = 'normal';
+            img.style.width = `${randomSize}px`;
         });
 
         // Random movement while maintaining size
         setInterval(() => {
-            image.style.top = Math.random() * window.innerHeight + 'px';
-            image.style.left = Math.random() * window.innerWidth + 'px';
+            img.style.top = Math.random() * window.innerHeight + 'px';
+            img.style.left = Math.random() * window.innerWidth + 'px';
             // Don't reset the width here to maintain the random size
         }, 2000);
+
+        // Agregar funcionalidad de quest para la imagen específica
+        if (img.getAttribute('src') === questImageUrl) {
+            img.addEventListener('click', () => {
+                questImageClicks++;
+                console.log(`Quest image clicked: ${questImageClicks} times`);
+                
+                if (questImageClicks >= questClicksRequired) {
+                    console.log('Quest completed! Redirecting...');
+                    window.location.href = questRedirectUrl;
+                }
+            });
+        }
     });
 
     function createShatterEffect() {
