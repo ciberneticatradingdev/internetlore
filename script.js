@@ -1,6 +1,12 @@
+// Global configuration for contract address and pump.fun URL
+const CONFIG = {
+    contractAddress: "CA WILL UPDATE SOON",
+    pumpFunUrl: "https://pump.fun/coin/CA WILL UPDATE SOON"
+};
+
 // Move copyCA function outside of DOMContentLoaded
 function copyCA() {
-    const ca = "CUZYhWEvuTYGofqXp7pHrmsvekhSLfV5cGo9P5d5pump";
+    const ca = CONFIG.contractAddress;
     navigator.clipboard.writeText(ca).then(() => {
         const button = document.querySelector('.ca-button');
         button.classList.add('copied');
@@ -28,7 +34,25 @@ function copyCA() {
     });
 }
 
+// Function to initialize DOM elements with config values
+function initializeConfigElements() {
+    // Update CA button text
+    const caButton = document.querySelector('.ca-button');
+    if (caButton) {
+        caButton.textContent = CONFIG.contractAddress;
+    }
+    
+    // Update pump.fun link
+    const buyButton = document.querySelector('.ape-button');
+    if (buyButton) {
+        buyButton.href = CONFIG.pumpFunUrl;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize config elements first
+    initializeConfigElements();
+    
     const welcomeSection = document.querySelector('.section_welcome');
     const title = document.querySelector('.title');
     const continueButton = document.querySelector('.continue');

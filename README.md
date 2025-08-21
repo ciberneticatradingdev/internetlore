@@ -1,8 +1,8 @@
-# Internet of Memes
+# internetlore $itlore
 
-The memecoin that represents all memes in internet history!
+The token that preserves the digital folklore of our time.
 
 ## About
 
-Internet of Memes is a celebration of internet culture's most powerful force: memes. We're not here to change the world with blockchain technology—we're here to immortalize the content that already changed it.
+internetlore $itlore is the guardian of internet's deepest mysteries, legendary stories, and digital folklore. We're not just another crypto project—we're the keepers of the internet's collective memory, preserving the legends, myths, and cultural artifacts that shaped our digital civilization.
 
